@@ -24,3 +24,7 @@ for s in wn.synsets(w):
     print(analyzer.polarity_scores(xdfn)['compound'])
     print(analyzer.polarity_scores(defn)['compound'])
     print(analyzer.polarity_scores(w))
+ #2334
+
+
+ 
