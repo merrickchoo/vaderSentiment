@@ -8,36 +8,37 @@ from vaderSentiment import SentimentIntensityAnalyzer
 
 
 f = open(r'D:\VSC\Coding\vaderSentiment\vaderSentiment\vader_text.txt').read().split()
-wordlist1 = nltk.corpus.words.words()
+nltkcorp = nltk.corpus.words.words()
 wordlist2 = []
-wordlist3 = []
-wordlist4 = []
+baseform = []
+notinWN = []
 for word in f:
     x = wn.morphy(word)
     if x == None:
         wordlist2.append(word)
     else:
-        wordlist3.append(x)
+        baseform.append(x)
 
 for word in wordlist2:
-    if word in wordlist1:
+    if word in nltkcorp:
         continue
     else:
-        wordlist4.append(word)
+        notinWN.append(word)
 
         
 #print(wordlist4)
 
+notinWN = list(set(notinWN))
+with open('notinWN.txt', 'w') as f:
+    print("\n".join(sorted(notinWN)), file=f)
 
-#with open('notinWN.txt', 'w') as f:
-#    print(wordlist4, file=f)
-
-#with open('baseform.txt', 'w') as f:
-#    print(wordlist3, file=f)
+baseform = list(set(baseform))
+with open('baseform.txt', 'w') as f:
+   print("\n".join(sorted(baseform)), file=f)
 
 
 analyzer = SentimentIntensityAnalyzer()
-for word in wordlist3:
+for word in baseform:
     for s in wn.synsets(word):
         print(s.lemma_names(),s.definition())
         defn = s.definition()
