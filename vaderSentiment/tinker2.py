@@ -27,4 +27,9 @@ for s in wn.synsets(w):
 
 
 
- 
+ similar_tos
+ hyponyms
+ hypernyms
+ instance_hypernyms
+ Instance_hyponyms
+ eq_synonym
