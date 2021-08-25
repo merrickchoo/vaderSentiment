@@ -226,7 +226,7 @@ class SentimentIntensityAnalyzer(object):
                      model="en_vader"):
         boosters = dict()
         uppers=self.read_words(upfile)
-        downers=self.read_words(upfile)
+        downers=self.read_words(dnfile)
         for w in uppers:
             boosters[w] = B_INCR
         for w in downers:
