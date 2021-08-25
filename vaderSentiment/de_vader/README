@@ -1,0 +1,27 @@
+A model for German taken from the GerVADER project.
+
+https://github.com/KarstenAMF/GerVADER
+
+The format has been changed to allow it to be loaded as a different model.
+
+
+
+
+Citation
+
+For your future works, please cite GerVADER as follows.
+
+Karsten Michael Tymann, Matthias Lutz, Patrick Palsbröker and Carsten Gips: GerVADER - A German adaptation of the VADER sentiment analysis tool for social media texts. In Proceedings of the Conference "Lernen, Wissen, Daten, Analysen" (LWDA 2019), Berlin, Germany, September 30 - October 2, 2019.
+
+LICENSE
+
+GerVADER is free under MIT-License.
+
+
+Lexicon
+
+The lexicon has been collected by the GERVADER author and rated by individuals. The lexicon is for the most parts based on SentiWS.
+
+R. Remus, U. Quasthoff & G. Heyer: SentiWS - a Publicly Available German-language Resource for Sentiment Analysis. In: Proceedings of the 7th International Language Ressources and Evaluation (LREC'10), pp. 1168-1171, 2010
+
+For using GerVADER or just the lexicon make sure to cite SentiWS and accept their license. Moreover the ratings of the lexicon are part of GerVADER, so make sure to quote GerVADER.
