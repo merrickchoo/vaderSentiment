@@ -24,7 +24,12 @@ for s in wn.synsets(w):
     print(analyzer.polarity_scores(xdfn)['compound'])
     print(analyzer.polarity_scores(defn)['compound'])
     print(analyzer.polarity_scores(w))
- #2334
 
 
- 
+
+ similar_tos
+ hyponyms
+ hypernyms
+ instance_hypernyms
+ Instance_hyponyms
+ eq_synonym

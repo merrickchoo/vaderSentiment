@@ -1,4 +1,11 @@
-sentences = ["VADER is smart, handsome, and funny.",  # positive sentence example
+from re import S
+import vaderSentiment
+from vaderSentiment import SentimentIntensityAnalyzer
+
+
+analyzer = SentimentIntensityAnalyzer()
+
+eng_sent = ["VADER is smart, handsome, and funny.",  # positive sentence example
                  "VADER is smart, handsome, and funny!",
                  # punctuation emphasis handled correctly (sentiment intensity adjusted)
                  "VADER is very smart, handsome, and funny.",
@@ -22,6 +29,8 @@ sentences = ["VADER is smart, handsome, and funny.",  # positive sentence exampl
                  "Catch utf-8 emoji such as 💘 and 💋 and 😁",  # emojis handled
                  "Not bad at all"  # Capitalized negation
                  ]
+#for str in eng_sent:
+    #print(analyzer.polarity_scores(str))
 
 jap_sent = ["VADERは賢く、ハンサムで、面白いです.",  # positive sentence example
                 "VADERは賢く、ハンサムで、面白いです。!",
@@ -37,6 +46,9 @@ jap_sent = ["VADERは賢く、ハンサムで、面白いです.",  # positive s
                 # mixed negation sentence
                 ]
 
+for str in jap_sent:
+    print(analyzer.polarity_scores(str))
+
 chn_sent = ["VADER聪明、英俊与风趣.",  # positive sentence example
                 "VADER聪明、英俊与风趣!",
                 # punctuation emphasis handled correctly (sentiment intensity adjusted)
@@ -51,7 +63,10 @@ chn_sent = ["VADER聪明、英俊与风趣.",  # positive sentence example
                 # mixed negation sentence
                 ]
 
-malay_sent = ["VADER pintar, kacak, dan lucu.",  # positive sentence example
+for str in chn_sent:
+    print(analyzer.polarity_scores(str))
+
+mly_sent = ["VADER pintar, kacak, dan lucu.",  # positive sentence example
                  "VADER pintar, kacak, dan lucu!",
                  # punctuation emphasis handled correctly (sentiment intensity adjusted)
                  "VADER sangat pintar, kacak, dan lucuv.",
@@ -75,5 +90,6 @@ malay_sent = ["VADER pintar, kacak, dan lucu.",  # positive sentence example
                  ]
 
 
-
+for str in mly_sent:
+    print(analyzer.polarity_scores(str))
 
