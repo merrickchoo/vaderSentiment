@@ -19,6 +19,14 @@ import json
 from itertools import product
 from inspect import getsourcefile
 from io import open
+from importlib.resources import open_text
+
+# try:
+#     import importlib.resources as pkg_resources
+# except ImportError:
+#     # Try backported to PY<37 `importlib_resources`.
+#     import importlib_resources as pkg_resources
+
 
 # ##Constants##
 
@@ -154,8 +162,6 @@ class SentimentIntensityAnalyzer(object):
 
     """
     
-
-    
     def __init__(self,
                  model="en_vader",
                  lexicon_file="vader_lexicon.txt",
@@ -167,51 +173,39 @@ class SentimentIntensityAnalyzer(object):
          * negators
          * boosters
         """
-        _this_module_file_path_ = os.path.abspath(getsourcefile(lambda: 0))
-        lexicon_full_filepath = os.path.join(os.path.dirname(_this_module_file_path_),
-                                             model,
-                                             lexicon_file)
-        with codecs.open(lexicon_full_filepath, encoding='utf-8') as f:
-            self.lexicon_full_filepath = f.read()
-        self.lexicon = self.make_lex_dict()
+        modpath = f"{__package__}.{model}"
 
-        emoji_full_filepath = os.path.join(os.path.dirname(_this_module_file_path_),
-                                           model,
-                                           emoji_lexicon)
-        with codecs.open(emoji_full_filepath, encoding='utf-8') as f:
-            self.emoji_full_filepath = f.read()
-        self.emojis = self.make_emoji_dict()
-
-        ### changed to set
-        self.negators = self.read_words(source="negators.txt",
-                               model=model)
+        self.lexicon = self.make_lex_dict(modpath, lexicon_file)
+        self.emojis  = self.make_emoji_dict(modpath, emoji_lexicon)
+        ### negators
+        self.negators = self.read_words(modpath, "negators.txt")
         ### boosters
-        self.boosters = self.read_boosters(upfile="intensifiers.txt",
-                                           dnfile="diminishers.txt",
-                                           model=model)
+        self.boosters = self.read_boosters(modpath,
+                                           upfile="intensifiers.txt",
+                                           dnfile="diminishers.txt")
       
-    def make_lex_dict(self):
+    def make_lex_dict(self, modpath, lexicon_file):
         """
         Convert lexicon file to a dictionary
         """
         lex_dict = {}
-        for line in self.lexicon_full_filepath.rstrip('\n').split('\n'):
+        fh = open_text(modpath, lexicon_file)
+        for line in fh:
+            line = line.strip()
             if not line:
                 continue
             (word, measure) = line.strip().split('\t')[0:2]
             lex_dict[word] = float(measure)
         return lex_dict
 
-    def read_words(self, source="negators.txt", model="en_vader"):
+    def read_words(self, modpath, source):
         """
         Read a list of words from a file
         Assume one word per line
         """
         words = set()
-        fh = os.path.join(os.path.dirname(os.path.abspath(getsourcefile(lambda: 0))),
-                          model,
-                          source)
-        for line in open(fh, encoding='utf-8'):
+        fh = open_text(modpath, source)
+        for line in fh:
             if line.startswith('#'):  ## allow comments
                 continue
             w = line.strip()
@@ -220,25 +214,24 @@ class SentimentIntensityAnalyzer(object):
         return words
 
 
-    def read_boosters(self,
-                     upfile="intensifiers.txt",
-                     dnfile="diminishers.txt",
-                     model="en_vader"):
+    def read_boosters(self, modpath, upfile, dnfile):
         boosters = dict()
-        uppers=self.read_words(upfile)
-        downers=self.read_words(dnfile)
+        uppers=self.read_words(modpath, upfile)
+        downers=self.read_words(modpath, dnfile)
         for w in uppers:
             boosters[w] = B_INCR
         for w in downers:
             boosters[w] = B_DECR
         return boosters
             
-    def make_emoji_dict(self):
+    def make_emoji_dict(self, modpath, lexicon_file):
         """
         Convert emoji lexicon file to a dictionary
         """
         emoji_dict = {}
-        for line in self.emoji_full_filepath.rstrip('\n').split('\n'):
+        fh = open_text(modpath, lexicon_file)
+        for line in fh:
+            line = line.strip()
             (emoji, description) = line.strip().split('\t')[0:2]
             emoji_dict[emoji] = description
         return emoji_dict
