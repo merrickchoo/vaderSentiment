@@ -14,6 +14,7 @@ for l in base_file:
    id, score, sentence = l.strip().split('\t')
    e_score = analyzer.polarity_scores(sentence)['compound']
    print(stats.spearmanr(score, e_score, axis=0, nan_policy='propagate', alternative='two-sided'))
+   print(id,score,sentence,e_score)
 
 
 
