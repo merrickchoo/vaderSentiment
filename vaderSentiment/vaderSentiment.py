@@ -16,6 +16,7 @@ import math
 import string
 import codecs
 import json
+import yaml
 from itertools import product
 from inspect import getsourcefile
 from io import open
@@ -183,7 +184,24 @@ class SentimentIntensityAnalyzer(object):
         self.boosters = self.read_boosters(modpath,
                                            upfile="intensifiers.txt",
                                            dnfile="diminishers.txt")
-      
+        self.meta = self.read_meta(modpath, 'meta.yaml')
+        
+        
+    def read_meta(self, modpath, meta_file):
+        """
+        Read meta parameters for the model
+
+        """
+        with open_text(modpath, meta_file) as metafh:
+            meta = yaml.safe_load(metafh)
+        return meta
+
+    def get_meta(self):
+        """
+        allow people to see the metadata
+        """
+        return self.meta()
+    
     def make_lex_dict(self, modpath, lexicon_file):
         """
         Convert lexicon file to a dictionary

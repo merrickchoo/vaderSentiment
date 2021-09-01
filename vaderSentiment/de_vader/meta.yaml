@@ -1,0 +1,19 @@
+description: |
+  The hand built model from GerVADER
+
+url:  "https://github.com/KarstenAMF/GerVADER"
+
+lang: de
+
+flags: 
+ - 'DE_CASE'
+
+
+citation: |
+  Karsten Michael Tymann, Matthias Lutz, Patrick Palsbröker and Carsten Gips (2019)
+  GerVADER - A German adaptation of the VADER sentiment analysis tool for social media texts.
+  In Proceedings of the Conference "Lernen, Wissen, Daten, Analysen" (LWDA 2019),
+  Berlin, Germany, September 30 - October 2, 2019
+
+citation_url: "http://ceur-ws.org/Vol-2454/paper_14.pdf"
+

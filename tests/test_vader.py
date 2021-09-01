@@ -26,6 +26,13 @@ sent['de_vader'] = [["VADER ist klug, gutaussehend und lustig. ",
 ]
 
 
+def test_meta():
+    analyzer =  SentimentIntensityAnalyzer('en_vader')
+    meta = analyzer.meta
+    assert meta['lang'] == 'en'
+    assert meta['url']  ==  "https://github.com/cjhutto/vaderSentiment"
+
+
 def test_models():
     for model in sent:
         analyzer = SentimentIntensityAnalyzer(model)
