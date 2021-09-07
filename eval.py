@@ -1,52 +1,37 @@
 import nltk
-
-import os
+import fileinput
+#import string
+#import re
 import vaderSentiment
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from scipy import stats
 
+#os.path
+
+def eval(evalfile):
+   base_data = []
+   score_list = []
+   e_score_list = []
+   base_file = open(evalfile).readlines()
+   analyzer = SentimentIntensityAnalyzer()
+   for l in base_file:
+      id, score, sentence = l.strip().split('\t')
+      e_score = analyzer.polarity_scores(sentence)['compound']
+      score_list.append(float(score))
+      e_score_list.append(e_score)
+      base_data.append((id, score, e_score, sentence))
+   #print(base_data) #output sentiment scores
+   print(modpath)
+   print(stats.pearsonr(score_list, e_score_list))
+   print(stats.spearmanr(score_list, e_score_list, axis=0, nan_policy='propagate'))	
 
 
-
-gold_dir  = 'additional_resources/hutto_ICWSM_2014/'
-gold_file = 'nytEditorialSnippets_GroundTruth.txt'
-gold_fh   = open(os.path.join(gold_dir, gold_file)).readlines()
-
-analyzer = SentimentIntensityAnalyzer()
-for l in gold_fh:
-   id, score, sentence = l.strip().split('\t')
-   e_score = analyzer.polarity_scores(sentence)['compound']
-#   print(stats.spearmanr(score, e_score, axis=0, nan_policy='propagate', alternative='two-sided'))
-   print(id,e_score,score,sentence)
-
-
-
+   
+eval('additional_resources/hutto_ICWSM_2014/nytEditorialSnippets_GroundTruth.txt') 
+eval('additional_resources/hutto_ICWSM_2014/amazonReviewSnippets_GroundTruth.txt')
+eval('additional_resources/hutto_ICWSM_2014/movieReviewSnippets_GroundTruth.txt')
+eval('additional_resources/hutto_ICWSM_2014/tweets_GroundTruth.txt')
 
 #def eval(model,filename):
 #    model=
 #    base = open(r'filename').read().split()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#start with the model, start with the filename
-#output the ro
-#output all the sentiment scores
