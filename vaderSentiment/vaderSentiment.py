@@ -174,7 +174,7 @@ class SentimentIntensityAnalyzer(object):
          * negators
          * boosters
         """
-        modpath = f"{__package__}.{model}"
+        modpath = f"{__package__}.models.{model}"
 
         self.lexicon = self.make_lex_dict(modpath, lexicon_file)
         self.emojis  = self.make_emoji_dict(modpath, emoji_lexicon)

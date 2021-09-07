@@ -21,7 +21,7 @@ def eval(evalfile):
       e_score_list.append(e_score)
       base_data.append((id, score, e_score, sentence))
    #print(base_data) #output sentiment scores
-   print(modpath)
+   print(evalfile)
    print(stats.pearsonr(score_list, e_score_list))
    print(stats.spearmanr(score_list, e_score_list, axis=0, nan_policy='propagate'))	
 
