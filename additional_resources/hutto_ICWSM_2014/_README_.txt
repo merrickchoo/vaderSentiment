@@ -53,15 +53,15 @@ PRIMARY RESOURCES:
 	point estimate for the sentiment valence (intensity) of each context-free candidate 
 	feature. We collected intensity ratings on each of our candidate lexical features 
 	from ten independent human raters (for a total of 90,000+ ratings). Features were 
-	rated on a scale from "[–4] Extremely Negative" to "[4] Extremely Positive", with 
+	rated on a scale from "[ï¿½4] Extremely Negative" to "[4] Extremely Positive", with 
 	allowance for "[0] Neutral (or Neither, N/A)". 
 	   We kept every lexical feature that had a non-zero mean rating, and whose standard 
 	deviation was less than 2.5 as determined by the aggregate of ten independent raters. 
 	This left us with just over 7,500 lexical features with validated valence scores that 
 	indicated both the sentiment polarity (positive/negative), and the sentiment intensity 
-	on a scale from –4 to +4. For example, the word "okay" has a positive valence of 0.9, 
-	"good" is 1.9, and "great" is 3.1, whereas "horrible" is –2.5, the frowning emoticon :( 
-	is –2.2, and "sucks" and it's slang derivative "sux" are both –1.5. 
+	on a scale from ï¿½4 to +4. For example, the word "okay" has a positive valence of 0.9, 
+	"good" is 1.9, and "great" is 3.1, whereas "horrible" is ï¿½2.5, the frowning emoticon :( 
+	is ï¿½2.2, and "sucks" and it's slang derivative "sux" are both ï¿½1.5. 
 3. vaderSentiment.py
     The Python code for the rule-based sentiment analysis engine. Implements the 
 	grammatical and syntactical rules described in the paper, incorporating empirically 
@@ -82,7 +82,7 @@ PRIMARY RESOURCES:
 DATASETS AND TESTING RESOURCES:
 4. tweets_GroundTruth.txt
 	FORMAT: the file is tab delimited with ID, MEAN-SENTIMENT-RATING, and TWEET-TEXT
-    DESCRIPTION: includes "tweet-like" text as inspired by 4,000 tweets pulled from Twitter’s public timeline, plus 200 completely contrived tweet-like texts intended to specifically test syntactical and grammatical conventions of conveying differences in sentiment intensity. The "tweet-like" texts incorporate a fictitious username (@anonymous) in places where a username might typically appear, along with a fake URL ( http://url_removed ) in places where a URL might typically appear, as inspired by the original tweets. The ID and MEAN-SENTIMENT-RATING correspond to the raw sentiment rating data provided in 'tweets_anonDataRatings.txt' (described below).
+    DESCRIPTION: includes "tweet-like" text as inspired by 4,000 tweets pulled from Twitterï¿½s public timeline, plus 200 completely contrived tweet-like texts intended to specifically test syntactical and grammatical conventions of conveying differences in sentiment intensity. The "tweet-like" texts incorporate a fictitious username (@anonymous) in places where a username might typically appear, along with a fake URL ( http://url_removed ) in places where a URL might typically appear, as inspired by the original tweets. The ID and MEAN-SENTIMENT-RATING correspond to the raw sentiment rating data provided in 'tweets_anonDataRatings.txt' (described below).
 5. tweets_anonDataRatings.txt
     FORMAT: the file is tab delimited with ID, MEAN-SENTIMENT-RATING, STANDARD DEVIATION, and RAW-SENTIMENT-RATINGS
 	DESCRIPTION: Sentiment ratings from a minimum of 20 independent human raters (all pre-screened, trained, and quality checked for optimal inter-rater reliability).
@@ -110,7 +110,10 @@ ADDITIONAL RESOURCES:
 	 This readme file
 13. vader_sentiment_comparison_online_weblink
      A short-cut hyperlinked to the online (web-based) sentiment comparison using a "light" version of VADER. http://www.socialai.gatech.edu/apps/sentiment.html .
-
+14. chinese_scored_lexicon.csv
+	 An annotated Mandarin Chinese lexicon obtained from Wang, Shih-Ming & Ku, Lun-Wei. (2016). ANTUSD: A Large Chinese Sentiment Dictionary. 
+15. jap_scored_lexicon.txt
+	 An annotated Japanese lexcion obtained from http://www.lr.pi.titech.ac.jp/~takamura/pubs/pn_ja.dic .
 =======
 
 Python Code EXAMPLE:

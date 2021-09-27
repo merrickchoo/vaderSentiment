@@ -27,9 +27,25 @@ for s in wn.synsets(w):
 
 
 
- similar_tos
- hyponyms
- hypernyms
- instance_hypernyms
- Instance_hyponyms
- eq_synonym
+ #similar_tos
+ #hyponyms
+ #hypernyms
+ #instance_hypernyms
+ #Instance_hyponyms
+ #eq_synonym
+
+
+
+def basesent(file):
+    base_data = []
+    score_list = []
+    base_file = open(file).readlines()
+    analyzer = SentimentIntensityAnalyzer()
+    for l in base_file:
+        score = analyzer.polarity_scores(l)['compound']
+        score_list.append(float(score))
+        base_data.append((l, score))
+
+    print(base_data)
+
+basesent('vaderSentiment\vaderSentiment\baseform.txt')
