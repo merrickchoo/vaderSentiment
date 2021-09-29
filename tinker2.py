@@ -1,6 +1,7 @@
 import nltk
 from nltk.corpus import wordnet as wn
 from nltk.corpus.reader import wordnet
+import vaderSentiment
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 
@@ -19,19 +20,19 @@ for s in wn.synsets(w):
         print(hypo)
     hype = []
     for sh in s.hypernyms():
-        hype += sh.lemma_names
+        hype += sh.lemma_names()
         print(hype)
     i_hypo = []
     for sh in s.instance_hyponyms():
-        i_hypo += sh.lemma_names
+        i_hypo += sh.lemma_names()
         print(i_hypo)
     i_hype = []
     for sh in s.instance_hypernyms():
-        i_hype += sh.lemma_names
+        i_hype += sh.lemma_names()
         print(i_hype)
     es = []
     for sh in s.eq_synonym():
-        es += sh/lemma_names
+        es += sh/lemma_names()
         print(es)
     xdfn = '; '.join([defn]+sto+hypo+hype+i_hype+i_hypo+es)
     print(xdfn)
@@ -41,12 +42,10 @@ for s in wn.synsets(w):
 
 
 
- #similar_tos
- #hyponyms
- #hypernyms
- #instance_hypernyms
- #Instance_hyponyms
- #eq_synonym
+ # differentiate by POS to find the right lemma?
+ # using ntlk.pos_tag
+
+
 
 
 
@@ -72,3 +71,4 @@ def basesent(file):
     print(base_data)
 
 basesent('vaderSentiment\vaderSentiment\baseform.txt')
+
