@@ -8,7 +8,12 @@ lang: de
 flags: 
  - 'DE_CASE'
 
+lexicons:
+ - 'vader_lexicon.txt'
 
+rewrites:
+ - 'emoji_utf8_lexicon.txt'
+ 
 citation: |
   Karsten Michael Tymann, Matthias Lutz, Patrick Palsbröker and Carsten Gips (2019)
   GerVADER - A German adaptation of the VADER sentiment analysis tool for social media texts.

@@ -175,9 +175,8 @@ class SentimentIntensityAnalyzer(object):
          * boosters
         """
         modpath = f"{__package__}.models.{model}"
+        datapath = f"{__package__}.data"
 
-        self.lexicon = self.make_lex_dict(modpath, lexicon_file)
-        self.emojis  = self.make_emoji_dict(modpath, emoji_lexicon)
         ### negators
         self.negators = self.read_words(modpath, "negators.txt")
         ### boosters
@@ -185,7 +184,29 @@ class SentimentIntensityAnalyzer(object):
                                            upfile="intensifiers.txt",
                                            dnfile="diminishers.txt")
         self.meta = self.read_meta(modpath, 'meta.yaml')
-        
+
+        ### Valence lexicons
+        self.lexicon = dict()
+
+        for lexfile in self.meta['lexicons']:
+            self.lexicon.update(self.make_lex_dict(modpath, lexfile))
+
+        ### Rewrite lexicons
+        self.emojis = dict()
+        for lexfile in self.meta['rewrites']:
+            self.emojis.update(self.make_emoji_dict(modpath, lexfile))
+
+        ### get emoji list for tokenizing
+        emoset = self.read_words(datapath, "emojis.txt")
+        emos = sorted(emoset, key=len, reverse=True)
+        emoji_regexp = f"({'|'.join(re.escape(u) for u in emos)})"
+        self.EMOJI_REGEX = re.compile(rf"({emoji_regexp})", flags=re.UNICODE)
+
+    def split_emoji(self, text):
+        text = self.EMOJI_REGEX.sub(r' \1 ', text)
+        text = text.replace('  ', ' ')
+        return text
+
         
     def read_meta(self, modpath, meta_file):
         """
@@ -205,12 +226,16 @@ class SentimentIntensityAnalyzer(object):
     def make_lex_dict(self, modpath, lexicon_file):
         """
         Convert lexicon file to a dictionary
+        Expect a tab separated lexicon
+        lemma	score	rest
+
+        Allow comments with hashes
         """
         lex_dict = {}
         fh = open_text(modpath, lexicon_file)
         for line in fh:
             line = line.strip()
-            if not line:
+            if not line or line.startswith('#'):
                 continue
             (word, measure) = line.strip().split('\t')[0:2]
             lex_dict[word] = float(measure)
@@ -245,6 +270,9 @@ class SentimentIntensityAnalyzer(object):
     def make_emoji_dict(self, modpath, lexicon_file):
         """
         Convert emoji lexicon file to a dictionary
+        Expect a tab separated lexicon
+        char	gloss	rest
+
         """
         emoji_dict = {}
         fh = open_text(modpath, lexicon_file)
@@ -283,20 +311,23 @@ class SentimentIntensityAnalyzer(object):
         valence.
         """
         # convert emojis to their textual descriptions
-        text_no_emoji = ""
-        prev_space = True
-        for chr in text:
-            if chr in self.emojis:
-                # get the textual description
-                description = self.emojis[chr]
-                if not prev_space:
-                    text_no_emoji += ' '
-                text_no_emoji += description
-                prev_space = False
-            else:
-                text_no_emoji += chr
-                prev_space = chr == ' '
-        text = text_no_emoji.strip()
+        if self.emojis:
+            text_no_emoji = ""
+            prev_space = True
+            for chr in text:
+                if chr in self.emojis:
+                    # get the textual description
+                    description = self.emojis[chr]
+                    if not prev_space:
+                        text_no_emoji += ' '
+                    text_no_emoji += description
+                    prev_space = False
+                else:
+                    text_no_emoji += chr
+                    prev_space = chr == ' '
+            text = text_no_emoji.strip()
+        else:
+            text = self.split_emoji(text)
 
         sentitext = SentiText(text)
 

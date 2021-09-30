@@ -10,6 +10,13 @@ flags:
  - 'BUT'
  - 'LEAST'
 
+lexicons:
+ - 'vader_lexicon.txt'
+
+rewrites:
+ - 'emoji_utf8_lexicon.txt'
+
+
 citation: |
   Hutto, C.J. & Gilbert, E.E. (2014).
   VADER: A Parsimonious Rule-based Model for Sentiment Analysis of Social Media Text.
