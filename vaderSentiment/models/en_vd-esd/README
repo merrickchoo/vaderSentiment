@@ -1,0 +1,41 @@
+There are 5 different files:
+
+# vader_lexicon.txt
+
+ contains words and their sentiments.  Sentiment is from -4 to +4.
+```
+#word	  sentiment SD [scores]
+good	1.9	0.9434	[2, 1, 1, 3, 2, 4, 2, 2, 1, 1]
+```'''
+
+
+# vd-emoji-lex.tsv
+
+ contains words and their sentiments.  Sentiment is from -4 to +4.
+```
+# HEAVY BLACK HEART	Dingbats
+❤	2.9843478260869567	2.1076620890222144	8050
+```
+
+# operators
+
+words that change the valence or strength of another word are are
+three files, each containing one word per line.
+
+## diminishers
+
+```
+kind of
+```
+
+## intensifiers
+
+```
+very
+```
+
+## negators
+
+```
+not
+```
