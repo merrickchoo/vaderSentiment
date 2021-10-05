@@ -19,24 +19,35 @@ for l in base_fh:
         mono += 1
         mono_list.append(w)
 
-print(mono_list, sep='\n')
 
 def eval_mono(list):
    mono_data = []
-   word_score_list = []
-   defn_score_list = []
+   wscore_list = []
+   dscore_list = []
+   no_wscore = []
+   no_dscore = []
+   no_score = []
    analyzer = SentimentIntensityAnalyzer()
    for str in list:
         for s in wn.synsets(str):
             defn = s.definition()
-            word_score = analyzer.polarity_scores(str)['compound']
-            defn_score = analyzer.polarity_scores(defn)['compound']
-        word_score_list.append(float(word_score))
-        defn_score_list.append(float(defn_score))
-        mono_data.append((str,word_score,defn_score))
+            wscore = analyzer.polarity_scores(str)['compound']
+            dscore = analyzer.polarity_scores(defn)['compound']
+            if wscore == 0:
+                no_wscore.append(str)
+            if dscore == 0:
+                no_dscore.append(str)
+            if wscore == 0 and dscore == 0:
+                no_score.append(str)
+        wscore_list.append(float(wscore))
+        dscore_list.append(float(dscore))
+        mono_data.append((str,wscore,dscore))
    print(mono_data, sep='\n') #output sentiment scores
    #print(evalfile)
-   print(stats.pearsonr(word_score_list, defn_score_list))
-   print(stats.spearmanr(word_score_list, defn_score_list, axis=0, nan_policy='propagate'))	
-
+   print(stats.pearsonr(wscore_list, dscore_list))
+   print(stats.spearmanr(wscore_list, dscore_list, axis=0, nan_policy='propagate'))
+   print(no_wscore)
+   print(no_dscore)
+   print(no_score)
+    
 eval_mono(mono_list)
