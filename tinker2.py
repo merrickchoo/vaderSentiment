@@ -6,7 +6,7 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 
 analyzer = SentimentIntensityAnalyzer()
-w = 'well'
+w = 'astonish'
 for s in wn.synsets(w):
     print(s.lemma_names(),s.definition())
     defn = s.definition()
@@ -31,10 +31,10 @@ for s in wn.synsets(w):
         i_hype += sh.lemma_names()
         print(i_hype)
     es = []
-    for sh in s.eq_synonym():
-        es += sh/lemma_names()
-        print(es)
-    xdfn = '; '.join([defn]+sto+hypo+hype+i_hype+i_hypo+es)
+    #for sh in s.eq_synonym():
+    #    es += sh/lemma_names()
+    #    print(es)
+    xdfn = '; '.join([defn]+sto+hypo+hype+i_hype+i_hypo)
     print(xdfn)
     print(analyzer.polarity_scores(xdfn)['compound'])
     print(analyzer.polarity_scores(defn)['compound'])
@@ -49,26 +49,4 @@ for s in wn.synsets(w):
 
 
 
-def basesent(file):
-    base_data = []
-    score_list = []
-    base_file = open(file).readlines()
-    analyzer = SentimentIntensityAnalyzer()
-    for l in base_file:
-        for s in wn.synsets(l):
-            defn = s.definition()
-            sto = []
-            for sh in s.similar_tos():
-                sto += sh.lemma_names()
-            hypo = []
-            for sh in s.hyponyms():
-                hypo += sh.lemma_names()
-        xdfn = '; '.join([defn]+sto+hypo)
-        score = analyzer.polarity_scores(xdfn)['compound']
-        score_list.append(float(score))
-        base_data.append((l, score))
-
-    print(base_data)
-
-basesent('vaderSentiment\vaderSentiment\baseform.txt')
 
