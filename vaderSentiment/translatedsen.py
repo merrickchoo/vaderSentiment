@@ -1,4 +1,4 @@
-from re import S
+
 import vaderSentiment
 from vaderSentiment import SentimentIntensityAnalyzer
 

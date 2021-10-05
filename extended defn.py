@@ -15,6 +15,7 @@ for l in base_fh:
     if len(lemmas) == 1:
         #print(w, lemmas[0])
         mono += 1
+        
     else:
         poly += 1
         for l in lemmas:
