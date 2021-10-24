@@ -20,7 +20,8 @@ for l in base_fh:
         mono_list.append(w)
 
 
-def eval_mono(list):
+def eval_mono(list, flag):
+
    mono_data = []
    wscore_list = []
    dscore_list = []
@@ -28,6 +29,7 @@ def eval_mono(list):
    no_dscore = []
    no_score = []
    prob_score = []
+   true_no_wscore = []
    analyzer = SentimentIntensityAnalyzer()
    for str in list:
         for s in wn.synsets(str):
@@ -47,8 +49,9 @@ def eval_mono(list):
                 i_hypo += sh.lemma_names()
             for sh in s.instance_hypernyms():
                 i_hype += sh.lemma_names()
+            xdfn = '; '.join([defn]+sto+hypo+hype+i_hype+i_hypo)
             wscore = analyzer.polarity_scores(str)['compound']
-            dscore = analyzer.polarity_scores(defn)['compound'] + analyzer.polarity_scores(sto)['compound'] + analyzer.polarity_scores(hypo)['compound'] + analyzer.polarity_scores(hype)['compound'] + analyzer.polarity_scores(i_hypo)['compound']+ analyzer.polarity_scores(i_hype)['compound']
+            dscore = analyzer.polarity_scores(xdfn)['compound']
         if wscore == 0:
             no_wscore.append(str)
         if dscore == 0:
@@ -57,46 +60,17 @@ def eval_mono(list):
             no_score.append(str)
         if (wscore > 0 and dscore < 0) or (wscore < 0 and dscore > 0):
             prob_score.append(str)
+        if str in no_wscore not in no_score:
+           true_no_wscore.append(str) 
         wscore_list.append(float(wscore))
         dscore_list.append(float(dscore))
         mono_data.append((str,wscore,dscore))
-   print(mono_data, sep='\n') #output sentiment scores
+#   print(mono_data, sep='\n') #output sentiment scores
    print(stats.pearsonr(wscore_list, dscore_list))
    print(stats.spearmanr(wscore_list, dscore_list, axis=0, nan_policy='propagate'))
-    #print(no_wscore)
-    #print(no_dscore)
-    #print(no_score)
-   print(prob_score)
-
-def eval_mono2(list):
-   mono_data = []
-   wscore_list = []
-   dscore_list = []
-   no_wscore = []
-   no_dscore = []
-   no_score = []
-   analyzer = SentimentIntensityAnalyzer()
-   for str in list:
-        for s in wn.synsets(str):
-            defn = s.definition()
-            wscore = analyzer.polarity_scores(str)['compound']
-            dscore = analyzer.polarity_scores(defn)['compound']
-            if wscore == 0:
-                no_wscore.append(str)
-            if dscore == 0:
-                no_dscore.append(str)
-            if wscore == 0 and dscore == 0:
-                no_score.append(str)
-        wscore_list.append(float(wscore))
-        dscore_list.append(float(dscore))
-        mono_data.append((str,wscore,dscore))
-   #print(mono_data, sep='\n') #output sentiment scores
-   #print(evalfile)
-   print(stats.pearsonr(wscore_list, dscore_list))
-   print(stats.spearmanr(wscore_list, dscore_list, axis=0, nan_policy='propagate'))
-   #print(no_wscore)
+   print(true_no_wscore)
    #print(no_dscore)
    #print(no_score)
+   print(prob_score)
     
 eval_mono(mono_list)
-eval_mono2(mono_list)
