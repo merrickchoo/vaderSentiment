@@ -20,7 +20,7 @@ for l in base_fh:
         mono_list.append(w)
 
 
-def eval_mono(list, flag):
+def eval_mono(list):
 
    mono_data = []
    wscore_list = []
@@ -33,28 +33,23 @@ def eval_mono(list, flag):
    analyzer = SentimentIntensityAnalyzer()
    for str in list:
         for s in wn.synsets(str):
-            defn = [s.definition()]
-            words = []
-            if 'sto' in flag:
-                for sh in s.similar_tos():
-                    words += sh.lemma_names()
-            if 'sto_def' in flag:
-                for sh in s.similar_tos():
-                    defn.append(sh.definition())
-            if 'hypo' in flag:
-                for sh in s.hyponyms():
-                    words += sh.lemma_names()
-            if 'hype' in flag:
-                for sh in s.hypernyms():
-                    words += sh.lemma_names()
-            if 'i_hypo' in flag:        #not as important
-                for sh in s.instance_hyponyms():
-                    words += sh.lemma_names()
-            if 'i_hype' in flag:        #not as important
-                for sh in s.instance_hypernyms():
-                    words += sh.lemma_names()
-            xdfn = '; '.join(defn+words)
-            #print(defn)
+            defn = s.definition()
+            sto = []
+            hypo = []
+            hype = []
+            i_hypo = []
+            i_hype = []
+            for sh in s.similar_tos():
+                sto += sh.lemma_names()
+            for sh in s.hyponyms():
+                hypo += sh.lemma_names()
+            for sh in s.hypernyms():
+                hype += sh.lemma_names()
+            for sh in s.instance_hyponyms():
+                i_hypo += sh.lemma_names()
+            for sh in s.instance_hypernyms():
+                i_hype += sh.lemma_names()
+            xdfn = '; '.join([defn]+sto+hypo+hype+i_hype+i_hypo)
             wscore = analyzer.polarity_scores(str)['compound']
             dscore = analyzer.polarity_scores(xdfn)['compound']
         if wscore == 0:
@@ -73,12 +68,9 @@ def eval_mono(list, flag):
 #   print(mono_data, sep='\n') #output sentiment scores
    print(stats.pearsonr(wscore_list, dscore_list))
    print(stats.spearmanr(wscore_list, dscore_list, axis=0, nan_policy='propagate'))
-   #print(true_no_wscore)
+   print(true_no_wscore)
    #print(no_dscore)
    #print(no_score)
-   #print(prob_score)
-
-for flag in [[],['sto'],['sto','sto_def']]:
-    print(flag)
-    eval_mono(mono_list, flag)
-
+   print(prob_score)
+    
+eval_mono(mono_list)
