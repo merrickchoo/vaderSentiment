@@ -44,6 +44,12 @@ def eval_mono(list, flag):
             if 'hypo' in flag:
                 for sh in s.hyponyms():
                     words += sh.lemma_names()
+            if 'hypo_def' in flag:
+                for sh in s.hyponyms():
+                    defn.append(sh.definition())
+            if 'hypo_ex' in flag:      #hurts the accuracy
+                for sh in s.hyponyms():
+                    words += sh.examples()
             if 'hype' in flag:
                 for sh in s.hypernyms():
                     words += sh.lemma_names()
@@ -53,8 +59,15 @@ def eval_mono(list, flag):
             if 'i_hype' in flag:        #not as important
                 for sh in s.instance_hypernyms():
                     words += sh.lemma_names()
+            if 'also' in flag:
+               for sh in s.also_sees():
+                  words += sh.lemma_names()
+            if 'att' in flag:
+               for sh in s.attributes():
+                  words += sh.lemma_names()  
+            if 'ex' in flag:
+                words += s.examples()
             xdfn = '; '.join(defn+words)
-            #print(defn)
             wscore = analyzer.polarity_scores(str)['compound']
             dscore = analyzer.polarity_scores(xdfn)['compound']
         if wscore == 0:
@@ -78,7 +91,7 @@ def eval_mono(list, flag):
    #print(no_score)
    #print(prob_score)
 
-for flag in [[],['sto'],['sto','sto_def']]:
+for flag in [[],['sto','sto_def','hypo','hypo_def','hype','also','att','ex','hypo_ex']]:
     print(flag)
     eval_mono(mono_list, flag)
 
