@@ -1,0 +1,51 @@
+import nltk
+from nltk.corpus import wordnet as wn
+from nltk.corpus.reader import wordnet
+import string
+
+base = open('C:\VSC\SO-CAL\Resources\dictionaries\English\int_dictionary1.11.txt').readlines()
+inten = []
+dimi = []
+inten
+
+for l in base:
+    word, score = l.strip().split('\t')
+    if float(score) < 0:
+        dimi.append(word.replace('_',' '))
+    if float(score) > 0:
+        inten.append(word.replace('_',' '))
+
+i_syn_ids = [
+
+]
+d_syn_ids = [
+    
+]
+
+
+for str in inten:
+    for s in wn.synsets(str):
+        if (s.pos() == 'a') or (s.pos() == 'r') or (s.pos() == 's'):
+            syn_id = ('{}-{}'.format(f'{s.offset():08}', s.pos()))
+            i_syn_ids.append(syn_id)
+
+for str in dimi:
+    for s in wn.synsets(str):
+        if (s.pos() == 'a') or (s.pos() == 'r') or (s.pos() == 's'):
+            syn_id = ('{}-{}'.format(f'{s.offset():08}', s.pos()))
+            d_syn_ids.append(syn_id)
+
+
+
+
+i_ili_ids = []
+d_ili_ids = []
+base = open('C:\VSC\cili\ili-map-pwn30.tab').readlines()
+for l in base:
+    ili_id, syn_id = l.strip().split('\t')
+    if syn_id in i_syn_ids:
+        i_ili_ids.append(ili_id)
+    if syn_id in d_syn_ids:
+        d_ili_ids.append(ili_id)
+print(i_ili_ids)
+print(d_ili_ids)
