@@ -2,6 +2,9 @@ import nltk
 from nltk.corpus import wordnet as wn
 from nltk.corpus.reader import wordnet
 import string
+from collections import defaultdict as dd
+
+# also read intensifeiers , diminishers, negators (VADER)
 
 base = open('C:\VSC\SO-CAL\Resources\dictionaries\English\int_dictionary1.11.txt').readlines()
 inten = []
@@ -11,29 +14,33 @@ inten
 for l in base:
     word, score = l.strip().split('\t')
     if float(score) < 0:
-        dimi.append(word.replace('_',' '))
+        dimi.append(word)
     if float(score) > 0:
-        inten.append(word.replace('_',' '))
+        inten.append(word)
 
-i_syn_ids = [
+i_syn_ids = dd(set)
 
-]
-d_syn_ids = [
-    
-]
+d_syn_ids = dd(set)
 
 
 for str in inten:
     for s in wn.synsets(str):
         if (s.pos() == 'a') or (s.pos() == 'r') or (s.pos() == 's'):
             syn_id = ('{}-{}'.format(f'{s.offset():08}', s.pos()))
-            i_syn_ids.append(syn_id)
+            i_syn_ids[syn_id].add(str)
+            print(str,syn_id,s.definition()) # go through definitiion
+
+
+           
+
+
 
 for str in dimi:
     for s in wn.synsets(str):
         if (s.pos() == 'a') or (s.pos() == 'r') or (s.pos() == 's'):
             syn_id = ('{}-{}'.format(f'{s.offset():08}', s.pos()))
-            d_syn_ids.append(syn_id)
+            d_syn_ids[syn_id].add(str)
+            print(str,syn_id,s.definition()) # go through definitiion
 
 
 
