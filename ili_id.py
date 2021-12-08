@@ -1,3 +1,4 @@
+from typing import ValuesView
 import nltk
 from nltk.corpus import wordnet as wn
 from nltk.corpus.reader import wordnet
@@ -7,8 +8,12 @@ from collections import defaultdict as dd
 # also read intensifeiers , diminishers, negators (VADER)
 
 base = open('C:\VSC\SO-CAL\Resources\dictionaries\English\int_dictionary1.11.txt').readlines()
+vader_I = open('vaderSentiment\intensifiers.txt').readlines()
+vader_D = open('vaderSentiment\diminishers.txt').readlines()
+#vader_N = open('vaderSentiment\negators.txt').readlines()
 inten = []
 dimi = []
+nega = []
 inten
 
 for l in base:
@@ -17,6 +22,30 @@ for l in base:
         dimi.append(word)
     if float(score) > 0:
         inten.append(word)
+
+print(inten)
+print(dimi)
+
+for l in vader_I:
+    w = l.strip('\n')
+    if w in inten:
+        pass
+    else:
+        inten.append(w)
+
+for l in vader_D:
+    w = l.strip('\n')
+    if w in dimi:
+        pass
+    else:
+        dimi.append(w)
+
+#for w in vader_N:
+    #nega.append(w)
+
+print(inten)
+print(dimi)
+print(nega)
 
 i_syn_ids = dd(set)
 
@@ -28,7 +57,7 @@ for str in inten:
         if (s.pos() == 'a') or (s.pos() == 'r') or (s.pos() == 's'):
             syn_id = ('{}-{}'.format(f'{s.offset():08}', s.pos()))
             i_syn_ids[syn_id].add(str)
-            print(str,syn_id,s.definition()) # go through definitiion
+            #print(str,syn_id,s.definition()) # go through definitiion
 
 
            
@@ -40,7 +69,7 @@ for str in dimi:
         if (s.pos() == 'a') or (s.pos() == 'r') or (s.pos() == 's'):
             syn_id = ('{}-{}'.format(f'{s.offset():08}', s.pos()))
             d_syn_ids[syn_id].add(str)
-            print(str,syn_id,s.definition()) # go through definitiion
+            #print(str,syn_id,s.definition()) # go through definitiion
 
 
 
@@ -54,5 +83,5 @@ for l in base:
         i_ili_ids.append(ili_id)
     if syn_id in d_syn_ids:
         d_ili_ids.append(ili_id)
-print(i_ili_ids)
-print(d_ili_ids)
+#print(i_ili_ids)
+#print(d_ili_ids)
