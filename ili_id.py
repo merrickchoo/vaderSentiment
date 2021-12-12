@@ -10,11 +10,9 @@ from collections import defaultdict as dd
 base = open('C:\VSC\SO-CAL\Resources\dictionaries\English\int_dictionary1.11.txt').readlines()
 vader_I = open('vaderSentiment\intensifiers.txt').readlines()
 vader_D = open('vaderSentiment\diminishers.txt').readlines()
-#vader_N = open('vaderSentiment\negators.txt').readlines()
 inten = []
 dimi = []
-nega = []
-inten
+
 
 for l in base:
     word, score = l.strip().split('\t')
@@ -23,8 +21,7 @@ for l in base:
     if float(score) > 0:
         inten.append(word)
 
-print(inten)
-print(dimi)
+
 
 for l in vader_I:
     w = l.strip('\n')
@@ -40,12 +37,8 @@ for l in vader_D:
     else:
         dimi.append(w)
 
-#for w in vader_N:
-    #nega.append(w)
 
-print(inten)
-print(dimi)
-print(nega)
+
 
 i_syn_ids = dd(set)
 
@@ -54,10 +47,10 @@ d_syn_ids = dd(set)
 
 for str in inten:
     for s in wn.synsets(str):
-        if (s.pos() == 'a') or (s.pos() == 'r') or (s.pos() == 's'):
+        if (s.pos() == 'r'):
             syn_id = ('{}-{}'.format(f'{s.offset():08}', s.pos()))
             i_syn_ids[syn_id].add(str)
-            #print(str,syn_id,s.definition()) # go through definitiion
+            #print(str,syn_id,s.definition(),s.lemma_names()) # go through definitiion
 
 
            
@@ -69,7 +62,7 @@ for str in dimi:
         if (s.pos() == 'a') or (s.pos() == 'r') or (s.pos() == 's'):
             syn_id = ('{}-{}'.format(f'{s.offset():08}', s.pos()))
             d_syn_ids[syn_id].add(str)
-            #print(str,syn_id,s.definition()) # go through definitiion
+            print(str,syn_id,s.definition()) # go through definitiion
 
 
 
