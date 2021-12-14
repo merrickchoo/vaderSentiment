@@ -1,6 +1,6 @@
 #less   01555416-a
 #a_little       00033663-r
-#slightly       00036291-
+#slightly       00036291-r
 #marginally     00090000-r
 #mildly 00033562-r
 #somewhat       00036291-r

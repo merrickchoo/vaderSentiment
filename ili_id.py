@@ -61,29 +61,34 @@ for str in dimi:
         if (s.pos() == 'a') or (s.pos() == 'r') or (s.pos() == 's'):
             syn_id = ('{}-{}'.format(f'{s.offset():08}', s.pos()))
             d_syn_ids[syn_id].add(str)
-       
+
+ad_i = []
+add_i = open('vaderSentiment\inten-r.txt').readlines()
+ad_d = []
+add_d = open('vaderSentiment\dimi-r.txt').readlines()
+
+for l in add_i:
+    syn_id = l.strip()
+    ad_i.append(syn_id)
 
 
-
+for l in add_d:
+    syn_id = l.strip()
+    ad_d.append(syn_id)
+print(ad_d)
 
 i_ili_ids = []
 d_ili_ids = []
+ad_d =[]
 base = open('C:\VSC\cili\ili-map-pwn30.tab').readlines()
-add_i = open('C:\VSC\vaderSentiment\relevant_inten.txt').readlines()
-add_d = open('C:\VSC\vaderSentiment\relevant_dimi.txt').readlines()
+
 for l in base:
     ili_id, syn_id = l.strip().split('\t')
-    if syn_id in i_syn_ids:
+    if (syn_id in i_syn_ids) or (syn_id in ad_i):
         i_ili_ids.append(ili_id)
     if syn_id in d_syn_ids:
         d_ili_ids.append(ili_id)
-for l in add_i:
-    id, a_syn_id = l.strip().split('\t')
-    if syn_id in add_i:
-        i_ili_ids.append(a_syn_id)
-for l in add_d:
-    id, a_syn_id = l.strip().split('\t')
-    if syn_id in add_d:     
-        d_ili_ids.append(a_syn_id) 
+    if syn_id in ad_d: # not in ili_ids
+        d_ili_ids.append(ili_id)
 print(i_ili_ids)
 print(d_ili_ids)
