@@ -50,8 +50,7 @@ for str in inten:
         if (s.pos() == 'r'):
             syn_id = ('{}-{}'.format(f'{s.offset():08}', s.pos()))
             i_syn_ids[syn_id].add(str)
-            #print(str,syn_id,s.definition(),s.lemma_names()) # go through definitiion
-
+        
 
            
 
@@ -62,7 +61,7 @@ for str in dimi:
         if (s.pos() == 'a') or (s.pos() == 'r') or (s.pos() == 's'):
             syn_id = ('{}-{}'.format(f'{s.offset():08}', s.pos()))
             d_syn_ids[syn_id].add(str)
-            print(str,syn_id,s.definition()) # go through definitiion
+       
 
 
 
@@ -70,11 +69,21 @@ for str in dimi:
 i_ili_ids = []
 d_ili_ids = []
 base = open('C:\VSC\cili\ili-map-pwn30.tab').readlines()
+add_i = open('C:\VSC\vaderSentiment\relevant_inten.txt').readlines()
+add_d = open('C:\VSC\vaderSentiment\relevant_dimi.txt').readlines()
 for l in base:
     ili_id, syn_id = l.strip().split('\t')
     if syn_id in i_syn_ids:
         i_ili_ids.append(ili_id)
     if syn_id in d_syn_ids:
         d_ili_ids.append(ili_id)
-#print(i_ili_ids)
-#print(d_ili_ids)
+for l in add_i:
+    id, a_syn_id = l.strip().split('\t')
+    if syn_id in add_i:
+        i_ili_ids.append(a_syn_id)
+for l in add_d:
+    id, a_syn_id = l.strip().split('\t')
+    if syn_id in add_d:     
+        d_ili_ids.append(a_syn_id) 
+print(i_ili_ids)
+print(d_ili_ids)
