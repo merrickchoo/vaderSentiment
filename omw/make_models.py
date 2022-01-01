@@ -5,9 +5,8 @@ import os
 import yaml
 import wn
 
-#wn.download('pwn:3.0')
-#wn.download('omw:1.3')
-#wn.download('odenet:1.3')
+wn.download('omw:1.4')
+wn.download('odenet:1.3')
 
 
 negators = {'i18282', 'i18284', 'i18436', #no
@@ -292,7 +291,7 @@ lgs = ['en', 'ja', 'de']
 def ilis2words(ili_list, lg):
     words = set() 
     for i in ili_list:
-        for ss in wn.synsets(ili=i, lgcode=lg):
+        for ss in wn.synsets(ili=i, lang=lg):
             for w in ss.words():
                 for f in w.forms():
                     words.add(f)
